@@ -3,10 +3,8 @@ import { Ethereum, Network, TatumSDK } from '@tatumio/tatum';
 
 @Injectable()
 export class EthereumService {
-  async getTransactionsOnAddressInBlock(
-    blockNumber: number,
-  ): Promise<{ address: string; count: number }> {
-    const block = await this.getBlockByNumber(blockNumber);
+  getTransactionsOnAddressInBlock(blockNumber: number) {
+    const block = this.getBlockByNumber(blockNumber);
 
     const transactions = block.result.transactions;
 
@@ -51,19 +49,19 @@ export class EthereumService {
     };
   }
 
-  private async getBlockByNumber(blockNumber: number) {
-    const tatum = await TatumSDK.init<Ethereum>({
+  private getBlockByNumber(blockNumber: number) {
+    let block = null;
+    TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
-    });
+    }).then((tatum) =>
+      tatum.rpc.getBlockByNumber(blockNumber, true).then((result) => {
+        block = result;
+      }),
+    );
 
-    // convert blockNumber to number if it is string
-    blockNumber = +blockNumber;
+    // wait for block to be set
+    while (block === null) {}
 
-    const result = await tatum.rpc.getBlockByNumber(blockNumber, true);
-
-    // TatumSDK requires destroy() to be called after init()
-    tatum.destroy();
-
-    return result;
+    return block;
   }
 }

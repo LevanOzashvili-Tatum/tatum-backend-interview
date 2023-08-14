@@ -6,10 +6,8 @@ export class AppController {
   constructor(private readonly ethereumService: EthereumService) {}
 
   @Post(':blockNumber')
-  async getTransactions(
-    @Param() param: { blockNumber: number },
-  ): Promise<{ address: string; count: number }> {
-    return await this.ethereumService.getTransactionsOnAddressInBlock(
+  getTransactions(@Param() param: { blockNumber: number }) {
+    return this.ethereumService.getTransactionsOnAddressInBlock(
       param.blockNumber,
     );
   }
