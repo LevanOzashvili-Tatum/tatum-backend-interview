@@ -6,7 +6,7 @@ export class EthereumService {
   getMostUsedAddressInBlock(blockNumber: number) {
     const block = this.getBlockByNumber(blockNumber);
 
-    const transactions = block.result.transactions;
+    const transactions = block.transactions;
 
     const addresses = [];
 
