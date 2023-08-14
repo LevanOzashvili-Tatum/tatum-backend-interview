@@ -6,9 +6,7 @@ export class AppController {
   constructor(private readonly ethereumService: EthereumService) {}
 
   @Post(':blockNumber')
-  getTransactions(@Param() param: { blockNumber: number }) {
-    return this.ethereumService.getTransactionsOnAddressInBlock(
-      param.blockNumber,
-    );
+  getMostUsedAddressInBlock(@Param() param: { blockNumber: number }) {
+    return this.ethereumService.getMostUsedAddressInBlock(param.blockNumber);
   }
 }

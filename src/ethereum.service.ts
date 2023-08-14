@@ -3,7 +3,7 @@ import { Ethereum, Network, TatumSDK } from '@tatumio/tatum';
 
 @Injectable()
 export class EthereumService {
-  getTransactionsOnAddressInBlock(blockNumber: number) {
+  getMostUsedAddressInBlock(blockNumber: number) {
     const block = this.getBlockByNumber(blockNumber);
 
     const transactions = block.result.transactions;
