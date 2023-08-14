@@ -10,17 +10,12 @@ export class EthereumService {
 
     const addresses = [];
 
-    // gather 'to' addresses from transactions
+    // gather addresses from transactions
     for (let i = 0; i < transactions.length; i++) {
       const transaction = transactions[i];
       if (transaction.to) {
         addresses.push(transaction.to);
       }
-    }
-
-    // gather 'from' addresses from transactions
-    for (let i = 0; i < transactions.length; i++) {
-      const transaction = transactions[i];
       if (transaction.from) {
         addresses.push(transaction.from);
       }
@@ -56,7 +51,7 @@ export class EthereumService {
     TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
     }).then((tatum) =>
-      tatum.rpc.getBlockByNumber(blockNumber, true).then((result) => {
+      tatum.rpc.getBlockByNumber(Number(blockNumber), true).then((result) => {
         block = result;
       }),
     );
@@ -70,6 +65,6 @@ export class EthereumService {
       throw new Error('Timeout waiting for block to be set');
     }
 
-    return block;
+    return block.result;
   }
 }
