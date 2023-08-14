@@ -51,6 +51,8 @@ export class EthereumService {
 
   private getBlockByNumber(blockNumber: number) {
     let block = null;
+    const timeout = 5000;
+
     TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
     }).then((tatum) =>
@@ -59,8 +61,14 @@ export class EthereumService {
       }),
     );
 
-    // wait for block to be set
-    while (block === null) {}
+    const startTime = Date.now();
+
+    // wait for block to be set or timeout
+    while (block === null && Date.now() - startTime < timeout) {}
+
+    if (block === null) {
+      throw new Error('Timeout waiting for block to be set');
+    }
 
     return block;
   }
