@@ -10,7 +10,7 @@ export class EthereumService {
 
     const addresses = [];
 
-    // gather addresses from transactions
+    // gather all addresses from transactions
     for (let i = 0; i < transactions.length; i++) {
       const transaction = transactions[i];
       if (transaction.to) {
@@ -48,6 +48,7 @@ export class EthereumService {
     let block = null;
     const timeout = 5000;
 
+    // initialize Tatum SDK and then get block by number
     TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
     }).then((tatum) =>
@@ -58,7 +59,7 @@ export class EthereumService {
 
     const startTime = Date.now();
 
-    // wait for block to be set or timeout
+    // we need the block so wait for it to be set or for timeout
     while (block === null && Date.now() - startTime < timeout) {}
 
     if (block === null) {
