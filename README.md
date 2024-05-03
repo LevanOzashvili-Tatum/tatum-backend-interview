@@ -8,7 +8,7 @@ $ yarn run start
 ```
 3. Call the endpoint with localhost:3111/17892393
 ```bash
-curl --location --request POST 'localhost:3111/17892393'
+curl --location --request POST "localhost:3111/17892393"
 ```
 4. Debug the application and fix the bug
 5. Review the code and suggest improvements
