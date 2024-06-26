@@ -1,7 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { Ethereum, Network, TatumSDK } from '@tatumio/tatum';
 
-@Injectable()
 export class EthereumService {
   getMostUsedAddressInBlock(blockNumber: number) {
     const block = this.getBlockByNumber(blockNumber);
@@ -34,7 +32,7 @@ export class EthereumService {
 
     // sort addresses by count
     const sortedAddressesCountArray = Object.entries(addressesCount).sort(
-      (a: [string, number], b: [string, number]) => b[1] - a[1],
+        (a: [string, number], b: [string, number]) => b[1] - a[1],
     );
 
     // return the address with the highest count
@@ -52,14 +50,14 @@ export class EthereumService {
     TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
     }).then((tatum) =>
-      tatum.rpc.getBlockByNumber(Number(blockNumber), true).then((result) => {
-        block = result;
-      }),
+        tatum.rpc.getBlockByNumber(Number(blockNumber), true).then((result) => {
+          block = result;
+        }),
     );
 
     const startTime = Date.now();
 
-    // we need the block so wait for it to be set or for timeout
+    // we need the block to wait for it to be set
     while (block === null && Date.now() - startTime < timeout) {}
 
     if (block === null) {

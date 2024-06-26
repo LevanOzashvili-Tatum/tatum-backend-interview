@@ -1,8 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { EthereumService } from "./ethereum.service";
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3111);
+async function run() {
+  const blockNumber = 17892393
+  const ethService = new EthereumService()
+
+  console.log('Getting most used address in block')
+  const result =  ethService.getMostUsedAddressInBlock(blockNumber)
+  console.log('The most used address in block:', result)
 }
-bootstrap();
+run();
