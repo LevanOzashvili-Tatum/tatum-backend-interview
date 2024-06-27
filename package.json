@@ -25,7 +25,10 @@
     "@nestjs/platform-express": "^10.0.0",
     "@tatumio/tatum": "^3.0.8",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "@tatumio/api-client": "^2.2.79",
+    "@tatumio/eth": "^2.2.79",
+    "@tatumio/shared-abstract-sdk": "^2.2.79"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
