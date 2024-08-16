@@ -32,7 +32,7 @@ export class EthereumService {
 
     // sort addresses by count
     const sortedAddressesCountArray = Object.entries(addressesCount).sort(
-        (a: [string, number], b: [string, number]) => b[1] - a[1],
+      (a: [string, number], b: [string, number]) => b[1] - a[1],
     );
 
     // return the address with the highest count
@@ -46,18 +46,13 @@ export class EthereumService {
     let block = null;
     const timeout = 5000;
 
-    // initialize Tatum SDK and then get block by number
-    TatumSDK.init<Ethereum>({
-      network: Network.ETHEREUM,
-    }).then((tatum) =>
-        tatum.rpc.getBlockByNumber(Number(blockNumber), true).then((result) => {
-          block = result;
-        }),
-    );
+    this.getBlockWithTatumSdk(blockNumber).then((result) => {
+      block = result;
+    });
 
     const startTime = Date.now();
 
-    // we need the block to wait for it to be set
+    // we need the block so we wait for it to be set
     while (block === null && Date.now() - startTime < timeout) {}
 
     if (block === null) {
@@ -65,5 +60,13 @@ export class EthereumService {
     }
 
     return block.result;
+  }
+
+  private async getBlockWithTatumSdk(blockNumber: number) {
+    const tatum = await TatumSDK.init<Ethereum>({
+      network: Network.ETHEREUM,
+    });
+
+    return tatum.rpc.getBlockByNumber(Number(blockNumber), true);
   }
 }
