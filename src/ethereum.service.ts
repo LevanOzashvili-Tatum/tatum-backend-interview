@@ -65,6 +65,7 @@ export class EthereumService {
   private async getBlockWithTatumSdk(blockNumber: number) {
     const tatum = await TatumSDK.init<Ethereum>({
       network: Network.ETHEREUM,
+      apiKey: '',
     });
 
     return tatum.rpc.getBlockByNumber(Number(blockNumber), true);
